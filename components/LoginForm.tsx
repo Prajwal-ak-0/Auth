@@ -21,43 +21,30 @@ import { Separator } from "@/components/ui/separator"
 import { AiFillGoogleCircle } from "react-icons/ai";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().email({
+    message: "Please enter a valid email.",
+  }),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
   }),
 });
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    axios
-      .post("/api/register", data)
-      .then(() => {})
-      .catch((error) => {})
-      .finally(() => {
-        setIsLoading(false);
-      });
+    console.log(data)
   };
 
   return (
@@ -78,7 +65,7 @@ const LoginForm = () => {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -91,10 +78,10 @@ const LoginForm = () => {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Re-Enter Password</FormLabel>
+                <FormLabel>Enter Password</FormLabel>
                 <FormControl>
                   <Input placeholder="Xkdo8!ih&yJ73" {...field} />
                 </FormControl>

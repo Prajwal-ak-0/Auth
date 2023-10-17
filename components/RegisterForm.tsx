@@ -20,43 +20,37 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  name: z.string().min(3, {
+    message: "Name must be at least 3 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email.",
+  }),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+  rePassword: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
   }),
 });
 
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      rePassword: "",
     },
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> =async (data) => {
     setIsLoading(true);
 
-    axios
-      .post("/api/register", data)
-      .then(() => {})
-      .catch((error) => {})
-      .finally(() => {
-        setIsLoading(false);
-      });
+    console.log(data)
   };
 
   return (
@@ -77,7 +71,7 @@ const RegisterForm = () => {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
@@ -90,7 +84,7 @@ const RegisterForm = () => {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -103,7 +97,7 @@ const RegisterForm = () => {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
@@ -116,7 +110,7 @@ const RegisterForm = () => {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="rePassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Re-Enter Password</FormLabel>
