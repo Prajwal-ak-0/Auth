@@ -50,7 +50,12 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> =async (data) => {
     setIsLoading(true);
 
-    console.log(data)
+    try {
+      const response = await axios.post("/api/register", data);
+      console.log(response);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
