@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
-import Image from "next/image";
+import { Separator } from "@/components/ui/separator"
+import { AiFillGoogleCircle } from "react-icons/ai";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -25,7 +26,7 @@ const formSchema = z.object({
   }),
 });
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -61,13 +62,13 @@ const RegisterForm = () => {
 
   return (
     <Card className="w-[450px]">
-      <CardHeader>
+      <CardHeader className="mt-4">
         <div className="flex">
-        <CardTitle className="my-auto">Sign-Up</CardTitle>
+        <CardTitle className="my-auto  mb-2">Login-In</CardTitle>
         </div>
         <CardDescription>
-          Create your account with{" "}
-          <span className="font-semibold dark:text-neutral-200 text-black">AugFolio.</span>
+          Alredy have an account with{" "}
+          <span className="font-semibold dark:text-neutral-200 text-black">AugFolio?</span>
         </CardDescription>
       </CardHeader>
       <Form {...form}>
@@ -75,19 +76,6 @@ const RegisterForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 pb-4 px-8"
         >
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Doe" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="username"
@@ -106,19 +94,6 @@ const RegisterForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="Xkdo8!ih&yJ73" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
                 <FormLabel>Re-Enter Password</FormLabel>
                 <FormControl>
                   <Input placeholder="Xkdo8!ih&yJ73" {...field} />
@@ -127,12 +102,32 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
-          <div className="pt-4">
+          <div>
             <Button
-              className="w-full py-2 bg-neutral-200 text-black font-semibold rounded-md "
+              className="w-full py-2 text-black font-semibold bg-neutral-200 rounded-md "
               type="submit"
             >
-              Submit
+              Log-In
+            </Button>
+          </div>
+          <div className=" flex flex-col">
+            <div className="flex mb-4 items-center ml-2">
+              <Separator className="w-40" />
+              <p className="mx-4 text-neutral-500 dark:text-neutral-400">
+                or
+              </p>
+              <Separator className="w-40" />
+            </div>
+            <Button
+              className="w-full py-1  mb-4 text-black font-semibold bg-blue-300 rounded-md "
+              type="submit"
+            >
+              <div className="flex items-center justify-center">
+              <AiFillGoogleCircle size={30} className="" />
+              <span className="ml-2">
+                Sign in with Google
+              </span>
+              </div>
             </Button>
           </div>
         </form>
@@ -141,4 +136,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

@@ -1,17 +1,23 @@
+"use client";
+
+import RegisterForm from "@/components/RegisterForm";
 import Image from "next/image";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="h-screen">
-      <div>
+    <div className=" h-full flex">
+      <div className="mx-auto">
         <Image 
-          src="/hero.jpg" 
+          src="/lock.png" 
           alt="Login page image" 
-          width={700}
+          width={500}
           height={500} 
           className="hidden md:block"
         />
+      </div>
+      <div className="mx-auto mt-10">
+        <RegisterForm />
       </div>
     </div>
   );

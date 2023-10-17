@@ -11,12 +11,14 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/react";
-import { Logo } from "@/components/Logo";
 import { useState } from "react";
 import { ModeToggle } from "./ModeToggle";
+import { usePathname } from "next/navigation";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const pathname=usePathname();
 
   const menuItems = [
     "Profile",
@@ -51,20 +53,14 @@ export default function App() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <Button
-          as={Link}
-          className="flex py-2 px-4 rounded-md text-black bg-neutral-200"
-        >
-          Login
-        </Button>
         <NavbarItem>
           <Button
             as={Link}
-            className="py-2 px-4 rounded-md text-black bg-violet-500"
-            href="#"
+            className="py-2 px-4 rounded-md text-black bg-neutral-200"
+            href={pathname==="/signup"?"/":"/signup"}
             variant="flat"
           >
-            Sign Up
+            {pathname==="/signup"?"Login":"Signup"}
           </Button>
         </NavbarItem>
       </NavbarContent>
