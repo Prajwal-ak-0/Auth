@@ -18,6 +18,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -47,26 +48,31 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> =async (data) => {
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post("/api/register", data);
-      console.log(response);
-    } catch (error) {
-      console.log(error)
-    }
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    axios
+      .post("/api/register", data)
+      .then(() => {
+        toast.success("Registered!");
+      })
+      .catch((error) => {
+        toast.error("Somwthing went Wrong!");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
     <Card className="w-[450px]">
       <CardHeader>
         <div className="flex">
-        <CardTitle className="my-auto">Sign-Up</CardTitle>
+          <CardTitle className="my-auto">Sign-Up</CardTitle>
         </div>
         <CardDescription>
           Create your account with{" "}
-          <span className="font-semibold dark:text-neutral-200 text-black">AugFolio.</span>
+          <span className="font-semibold dark:text-neutral-200 text-black">
+            AugFolio.
+          </span>
         </CardDescription>
       </CardHeader>
       <Form {...form}>

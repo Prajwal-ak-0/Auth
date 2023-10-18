@@ -17,8 +17,11 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -31,7 +34,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,21 +44,28 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> =async (data) => {
     setIsLoading(true);
 
-    console.log(data)
+    const response=await signIn("credentials", {
+      ...data,
+      redirect: false,
+    })
+
+    console.log(response);
   };
 
   return (
     <Card className="w-[450px]">
       <CardHeader className="mt-4">
         <div className="flex">
-        <CardTitle className="my-auto  mb-2">Login-In</CardTitle>
+          <CardTitle className="my-auto  mb-2">Login-In</CardTitle>
         </div>
         <CardDescription>
           Alredy have an account with{" "}
-          <span className="font-semibold dark:text-neutral-200 text-black">AugFolio?</span>
+          <span className="font-semibold dark:text-neutral-200 text-black">
+            AugFolio?
+          </span>
         </CardDescription>
       </CardHeader>
       <Form {...form}>
@@ -100,20 +110,17 @@ const LoginForm = () => {
           <div className=" flex flex-col">
             <div className="flex mb-4 items-center ml-2">
               <Separator className="w-40" />
-              <p className="mx-4 text-neutral-500 dark:text-neutral-400">
-                or
-              </p>
+              <p className="mx-4 text-neutral-500 dark:text-neutral-400">or</p>
               <Separator className="w-40" />
             </div>
             <Button
               className="w-full py-1  mb-4 text-black font-semibold bg-blue-300 rounded-md "
               type="submit"
+              onClick={() => signIn("google", { callbackUrl: "/" })}
             >
               <div className="flex items-center justify-center">
-              <AiFillGoogleCircle size={30} className="" />
-              <span className="ml-2">
-                Sign in with Google
-              </span>
+                <AiFillGoogleCircle size={30} className="" />
+                <span className="ml-2">Sign in with Google</span>
               </div>
             </Button>
           </div>

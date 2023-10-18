@@ -1,10 +1,16 @@
-import LoginForm from "@/components/LoginForm";
-import Image from "next/image";
-import React from "react";
+"use client";
 
-const page = () => {
+import LoginForm from "@/components/LoginForm";
+import { SessionProvider, useSession } from "next-auth/react"
+import Image from "next/image";
+export default function HomePage({
+  children
+}:{
+  children: React.ReactNode;
+}) {
+  
   return (
-    <div>
+      <div>
       <div className=" h-full flex">
         <div className="mx-auto">
           <Image
@@ -16,11 +22,9 @@ const page = () => {
           />
         </div>
         <div className=" mx-auto mt-16">
-          <LoginForm/>
+          <LoginForm />
         </div>
       </div>
     </div>
-  );
-};
-
-export default page;
+  )
+}

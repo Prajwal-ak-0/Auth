@@ -19,7 +19,7 @@ export const authOptions:AuthOptions={
                 password:{label:'password',type:'password'},
             },
             async authorize(credentials){
-                if(!credentials?.email || !credentials?.password ){
+                if(!credentials?.email || !credentials?.password){
                     throw new Error("Invalid Credentials!");
                 }
 
@@ -39,10 +39,13 @@ export const authOptions:AuthOptions={
                 );
 
                 if(!isCorrectPassword){
-                    throw new Error('Invalid Credentials');
+                    throw new Error('Password is incorrect! ');
                 }
 
-                return user;
+                return {
+                    id:user.id,
+                    name:user.name,
+                    email:user.email,                };
             }
         })
     ],
